@@ -1,4 +1,4 @@
-package model.passenger;
+package model.passenger.data;
 
 public class FamilyPassenger extends Passenger{
 

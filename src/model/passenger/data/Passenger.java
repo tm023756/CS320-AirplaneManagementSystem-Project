@@ -1,4 +1,4 @@
-package model.passenger;
+package model.passenger.data;
 
 import java.time.LocalDate;
 
