@@ -5,6 +5,7 @@ import controller.PassengerController;
 import controller.PlaneController;
 import model.flight.FlightModel;
 import model.flight.data.Flight;
+import model.flight.data.Seat;
 import model.flight.list_model.FlightListModel;
 import model.flight.list_model.SeatListModel;
 import model.passenger.PassengerModel;
@@ -16,6 +17,7 @@ import model.plane.data.Plane;
 import model.plane.list_model.PlaneListModel;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class AirportManagementSystemsGUI extends JFrame {
     private JButton updateUserButton;
@@ -46,7 +48,6 @@ public class AirportManagementSystemsGUI extends JFrame {
     private JButton removePlaneButton;
     private JTextField textFieldRemovePlane;
     private JScrollPane scrollPanePlanes;
-    private JTextArea textAreaTicketPrice;
     private PassengerModel passengerModel;
     private FlightModel flightModel;
     private PlaneModel planeModel;
@@ -85,7 +86,7 @@ public class AirportManagementSystemsGUI extends JFrame {
 
         PassengerController passengerController = new PassengerController(passengerModel);
 
-        JList<String> passengerList = setupAllPassengersPane();
+        refreshPassengerPane();
 
         addUserButton.addActionListener(e -> {
             passengerController.addUser(
@@ -95,26 +96,29 @@ public class AirportManagementSystemsGUI extends JFrame {
                     textFieldYearOfBirth.getText(),
                     (PassengerType) comboBoxPassengerType.getSelectedItem()
             );
-            scrollPaneAllPassengers.setViewportView(passengerList);
+            refreshPassengerPane();
             clearPassengerTextFields();
         });
 
         removeUserButton.addActionListener(e -> {
-            passengerController.removeUser(indexOfSelectedPassenger);
-            scrollPaneAllPassengers.setViewportView(passengerList);
+            Passenger selectedPassenger=  passengerModel.getPassenger(indexOfSelectedPassenger);
+            passengerController.removeUser(selectedPassenger.getId());
+            refreshPassengerPane();
             clearPassengerTextFields();
         });
 
         updateUserButton.addActionListener(e -> {
+            Passenger selectedPassenger = passengerModel.getPassenger(indexOfSelectedPassenger);
+            System.out.println("SELECRTED PASSENGER ID " + selectedPassenger.getId());
             passengerController.updateUser(
                     textFieldName.getText(),
                     textFieldSurname.getText(),
                     textFieldLuggageCount.getText(),
                     textFieldYearOfBirth.getText(),
                     (PassengerType) comboBoxPassengerType.getSelectedItem(),
-                    indexOfSelectedPassenger
+                    selectedPassenger.getId()
             );
-            scrollPaneAllPassengers.setViewportView(passengerList);
+            refreshPassengerPane();
             clearPassengerTextFields();
         });
     }
@@ -124,6 +128,11 @@ public class AirportManagementSystemsGUI extends JFrame {
         textFieldSurname.setText("");
         textFieldYearOfBirth.setText("");
         textFieldLuggageCount.setText("");
+    }
+
+    private void refreshPassengerPane() {
+        JList<String> passengerList = setupAllPassengersPane();
+        scrollPaneAllPassengers.setViewportView(passengerList);
     }
 
     private JList<String> setupAllPassengersPane() {
@@ -149,23 +158,18 @@ public class AirportManagementSystemsGUI extends JFrame {
         scrollPaneFlights.setHorizontalScrollBar(new JScrollBar(JScrollBar.HORIZONTAL));
         scrollPaneSeats.setVerticalScrollBar(new JScrollBar(JScrollBar.VERTICAL));
 
-        JList<String> flightList = setupCurrentFlightPane();
+        refreshFlightPane();
 
-//        addFlightButton.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//
-//            }
-//        }); I pressed Alt + Enter
         addFlightButton.addActionListener(e -> {
             flightController.addFlight(textFieldDeparture.getText(), textFieldLanding.getText(), textFieldDepartureDate.getText(), textFieldReturnDate.getText());
-            scrollPaneFlights.setViewportView(flightList);
+            refreshFlightPane();
             clearFlightTextFields();
         });
 
         removeFlightButton.addActionListener(e -> {
-            flightController.removeFlight(indexOfSelectedFlight);
-            scrollPaneFlights.setViewportView(flightList);
+            Flight selectedFlight = flightModel.getFlight(indexOfSelectedFlight);
+            flightController.removeFlight(selectedFlight.getId());
+            refreshFlightPane();
             clearFlightTextFields();
         });
 
@@ -173,18 +177,24 @@ public class AirportManagementSystemsGUI extends JFrame {
             if (selectedSeat[0] == -1) {
                 new ErrorDialog("No seat is chosen");
             } else {
-                String passengerId = textAreaPassengerId.getText();
+                String passengerIndex = textAreaPassengerId.getText();
 
-                flightController.buyTicket(flightModel.getFlight(indexOfSelectedFlight), selectedSeat[0], passengerId);
-                scrollPaneSeats.setViewportView(seatList);
+                Flight selectedFlight = flightModel.getFlight(indexOfSelectedFlight);
+                ArrayList<Seat> seats = flightModel.getSeatsByFlightId(selectedFlight.getId());
+
+                flightController.buyTicket(seats.get(selectedSeat[0]), passengerIndex);
+                setupManageTicketsPane(selectedFlight.getId());
                 textAreaPassengerId.setText("");
-                textAreaTicketPrice.setText("");
+                textFieldTicketPrice.setText("");
             }
         });
 
         cancelTicketButton.addActionListener(e -> {
-            flightController.cancelTicket(flightModel.getFlight(indexOfSelectedFlight), selectedSeat[0]);
-            scrollPaneSeats.setViewportView(seatList);
+            Flight selectedFlight = flightModel.getFlight(indexOfSelectedFlight);
+            ArrayList<Seat> seats = flightModel.getSeatsByFlightId(selectedFlight.getId());
+
+            flightController.cancelTicket(seats.get(selectedSeat[0]).getId());
+            setupManageTicketsPane(selectedFlight.getId());
         });
     }
 
@@ -193,6 +203,11 @@ public class AirportManagementSystemsGUI extends JFrame {
         textFieldDepartureDate.setText("");
         textFieldLanding.setText("");
         textFieldReturnDate.setText("");
+    }
+
+    private void refreshFlightPane() {
+        JList<String> flightList = setupCurrentFlightPane();
+        scrollPaneFlights.setViewportView(flightList);
     }
 
     private JList<String> setupCurrentFlightPane() {
@@ -208,13 +223,14 @@ public class AirportManagementSystemsGUI extends JFrame {
             textFieldDepartureDate.setText(selectedFlight.getDepartureDate());
             textFieldReturnDate.setText("");
 
-            setupManageTicketsPane(selectedFlight);
+            setupManageTicketsPane(selectedFlight.getId());
         });
         return flightList;
     }
 
-    private void setupManageTicketsPane(Flight selectedFlight) {
-        SeatListModel seatListModel = new SeatListModel(selectedFlight.getSeats());
+    private void setupManageTicketsPane(int flightId) {
+        ArrayList<Seat> seats = flightModel.getSeatsByFlightId(flightId);
+        SeatListModel seatListModel = new SeatListModel(seats);
         seatList.setModel(seatListModel);
         scrollPaneSeats.setViewportView(seatList);
 
@@ -222,7 +238,7 @@ public class AirportManagementSystemsGUI extends JFrame {
             indexOfSelectedSeat = seatList.getSelectedIndex();
             selectedSeat[0] = indexOfSelectedSeat;
 
-            textFieldTicketPrice.setText(String.valueOf(selectedFlight.getSeats().get(selectedSeat[0]).getPrice()));
+            textFieldTicketPrice.setText(String.valueOf(seats.get(selectedSeat[0]).getPrice()));
         });
     }
 
@@ -231,20 +247,26 @@ public class AirportManagementSystemsGUI extends JFrame {
 
         PlaneController planeController = new PlaneController(planeModel);
 
-        JList<String> planeList = setupAllPlanesPane();
+        refreshPlanePane();
 
         addPlaneButton.addActionListener(e -> {
             planeController.addPlane(textFieldAddPlane.getText(), (Integer) spinnerCapacity.getValue());
-            scrollPanePlanes.setViewportView(planeList);
+            refreshPlanePane();
             textFieldAddPlane.setText("");
             spinnerCapacity.setValue(0);
         });
 
         removePlaneButton.addActionListener(e -> {
-            planeController.removePlane(indexOfSelectedSeat);
-            scrollPanePlanes.setViewportView(planeList);
+            Plane selectedPlane = planeModel.getPlane(indexOfSelectedPlane);
+            planeController.removePlane(selectedPlane.getId());
+            refreshPlanePane();
             textFieldRemovePlane.setText("");
         });
+    }
+
+    private void refreshPlanePane() {
+        JList<String> planeList = setupAllPlanesPane();
+        scrollPanePlanes.setViewportView(planeList);
     }
 
     private JList<String> setupAllPlanesPane() {
@@ -254,7 +276,6 @@ public class AirportManagementSystemsGUI extends JFrame {
         planeList.getSelectionModel().addListSelectionListener(e -> {
             indexOfSelectedPlane = planeList.getSelectedIndex();
             Plane selectedPlane = planeModel.getPlane(indexOfSelectedPlane);
-
             textFieldRemovePlane.setText(selectedPlane.getName());
             spinnerCapacity.setValue(selectedPlane.getCapacity());
         });
