@@ -12,9 +12,9 @@ public class PassengerController {
         this.passengerModel = passengerModel;
     }
 
-    public void updateUser(String name, String surname, String luggageCountText, String yearOfBirthText, PassengerType passengerType, int selectedIndex) {
+    public void updateUser(String name, String surname, String luggageCountText, String yearOfBirthText, PassengerType passengerType, int passengerId) {
         try {
-            passengerModel.updateUser(name, surname, luggageCountText, yearOfBirthText, passengerType, selectedIndex);
+            passengerModel.updateUser(name, surname, luggageCountText, yearOfBirthText, passengerType, passengerId);
         } catch (Exception e) {
             new ErrorDialog(e.getMessage());
         }

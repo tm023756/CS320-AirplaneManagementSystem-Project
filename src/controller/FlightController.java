@@ -1,12 +1,13 @@
 package controller;
 
 import model.flight.FlightModel;
-import model.flight.data.Flight;
 import model.flight.data.Seat;
 import model.passenger.PassengerModel;
 import model.passenger.data.Passenger;
 import model.passenger.data.PassengerType;
 import view.form.ErrorDialog;
+
+import java.util.ArrayList;
 
 public class FlightController {
 
@@ -21,9 +22,9 @@ public class FlightController {
         this.passengerModel = passengerModel;
     }
 
-    public void removeFlight(int index) {
+    public void removeFlight(int id) {
         try {
-            flightModel.removeFlight(index);
+            flightModel.removeFlight(id);
         } catch (Exception e) {
             new ErrorDialog(e.getMessage());
         }
@@ -37,17 +38,15 @@ public class FlightController {
         }
     }
 
-    public void buyTicket(Flight selectedFlight, int selectedSeatIndex, String passengerId) {
+    public void buyTicket(Seat selectedSeat, String passengerIndex) {
         try {
-            int id = Integer.parseInt(passengerId);
+            int id = Integer.parseInt(passengerIndex);
 
             Passenger passenger = passengerModel.getPassenger(id);
             PassengerType passengerType = passenger.getPassengerType();
 
-            Seat selectedSeat = selectedFlight.getSeats().get(selectedSeatIndex);
-
             if (selectedSeat.getType() == passengerType) {
-                selectedSeat.setOwner(passenger.getName());
+                flightModel.buyTicket(selectedSeat.getId(), passenger.getId());
             } else {
                 new ErrorDialog("Passenger Type does not match with Seat Type");
             }
@@ -58,7 +57,12 @@ public class FlightController {
         }
     }
 
-    public void cancelTicket(Flight selectedFlight, int selectedSeatIndex) {
-        selectedFlight.getSeats().get(selectedSeatIndex).setOwner("Empty");
+    public void cancelTicket(int seatId) {
+        flightModel.buyTicket(seatId, null);
     }
+
+    public ArrayList<Seat> getSeatsByFlightId(int flightId) {
+        return flightModel.getSeatsByFlightId(flightId);
+    }
+
 }
