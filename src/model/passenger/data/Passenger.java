@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 public abstract class Passenger {
 
+    private int id;
+
     private String name;
 
     private String surname;
@@ -28,6 +30,14 @@ public abstract class Passenger {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public int getYearOfBirth() {
@@ -59,7 +69,6 @@ public abstract class Passenger {
     }
 
     public String toString(int index) {
-        return passengerType.name() + " Passenger: " + index + " : " + name + " " + surname + " " + yearOfBirth;
+        return index + ". " + passengerType.name() + " Passenger" + " : " + name + " " + surname + " " + yearOfBirth;
     }
 }
-
