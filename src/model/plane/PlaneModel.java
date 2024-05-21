@@ -39,7 +39,7 @@ public class PlaneModel {
         return planeData.getAllPlanes().get(index);
     }
 
-    public void removePlane(int index) {
-        planeData.removePlane(index);
+    public void removePlane(int id) {
+        planeData.removePlane(id);
     }
 }

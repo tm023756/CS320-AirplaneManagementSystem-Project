@@ -1,6 +1,8 @@
 package model.plane.data;
 
 public class Plane {
+
+    private int id;
     private String name;
     private int capacity;
 
@@ -11,6 +13,12 @@ public class Plane {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setId(int id) {this.id = id;}
+
+    public int getId() {
+        return id;
     }
 
     public void setCapacity(int capacity) {
