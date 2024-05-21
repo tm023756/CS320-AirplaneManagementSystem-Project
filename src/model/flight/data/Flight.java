@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 public class Flight {
 
+    private int id;
+
     private String departureLocation;
 
     private String landingLocation;
@@ -66,6 +68,14 @@ public class Flight {
             }
         }
         this.landingLocation = landingLocation;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getDepartureDate() {

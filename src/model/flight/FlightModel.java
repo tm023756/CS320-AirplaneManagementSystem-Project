@@ -2,6 +2,7 @@ package model.flight;
 
 import kotlin.Pair;
 import model.flight.data.Flight;
+import model.flight.data.Seat;
 
 import java.util.ArrayList;
 
@@ -51,8 +52,16 @@ public class FlightModel {
         return flightData.getAllFlights().get(index);
     }
 
-    public void removeFlight(int index) {
-        flightData.removeFlight(index);
+    public void removeFlight(int id) {
+        flightData.removeFlight(id);
+    }
+
+    public void buyTicket(int seatId, Integer passengerId) {
+        flightData.buyTicket(seatId, passengerId);
+    }
+
+    public ArrayList<Seat> getSeatsByFlightId(int flightId) {
+        return flightData.getSeatsByFlightId(flightId);
     }
 
 }

@@ -3,6 +3,8 @@ package model.flight.data;
 import model.passenger.data.PassengerType;
 
 public class Seat {
+
+    private int id;
     private PassengerType passengerType;
     private String owner;
     private double price;
@@ -21,13 +23,25 @@ public class Seat {
         return price;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String toString(int index) {
         String seatType = switch (passengerType) {
             case Business -> "VIP";
             case Economy -> "Econ";
-            case Family -> "Fam";
+            case Family -> "Family";
         };
         return seatType + " Seat:" + index + ", " + owner;
+    }
+
+    public PassengerType getPassengerType() {
+        return passengerType;
     }
 
     @Override
@@ -35,7 +49,4 @@ public class Seat {
         return "SEAT: " + owner + passengerType + price;
     }
 
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
 }
