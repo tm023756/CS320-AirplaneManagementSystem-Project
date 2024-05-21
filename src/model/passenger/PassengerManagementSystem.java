@@ -1,31 +1,26 @@
 package model.passenger;
 
 import model.passenger.data.Passenger;
+import model.passenger.data.PassengerDAO;
 
 import java.util.ArrayList;
 
 public class PassengerManagementSystem {
 
-    private ArrayList<Passenger> passengers;
-
-    public PassengerManagementSystem() {
-        passengers = new ArrayList<>();
-    }
-
     public ArrayList<Passenger> getAllPassengers() {
-        return passengers;
+        return PassengerDAO.getAllPassengers();
     }
 
     public void addUser(Passenger passenger) {
-        passengers.add(passenger);
+        PassengerDAO.addPassenger(passenger);
     }
 
-    public void removeUser(int index) {
-        passengers.remove(index);
+    public void removeUser(int id) {
+        PassengerDAO.removePassenger(id);
     }
 
-    public void updateUser(int index, Passenger updatedPassenger) {
-        passengers.set(index, updatedPassenger);
+    public void updateUser(Passenger updatedPassenger) {
+        PassengerDAO.updatePassenger(updatedPassenger);
     }
 
 }

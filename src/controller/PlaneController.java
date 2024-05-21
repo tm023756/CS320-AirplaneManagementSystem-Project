@@ -12,9 +12,9 @@ public class PlaneController {
         this.planeModel = planeModel;
     }
 
-    public void removePlane(int index) {
+    public void removePlane(int id) {
         try {
-            planeModel.removePlane(index);
+            planeModel.removePlane(id);
         } catch (Exception e) {
             new ErrorDialog(e.getMessage());
         }

@@ -37,22 +37,22 @@ public class PassengerModel {
             assert passengerType != null;
             //If luggageCount and yearOfBirth are set, newPassenger will be created
             if (luggageCount != -1 && yearOfBirth != -1) {
-                switch (passengerType.ordinal()) {
-                    case 0 -> {
+                switch (passengerType) {
+                    case Business -> {
                         try {
                             newPassenger = new BusinessPassenger(name, surname, luggageCount, yearOfBirth);
                         } catch (Exception ex) {
                             throw new Exception(ex.getMessage());
                         }
                     }
-                    case 1 -> {
+                    case Economy -> {
                         try {
                             newPassenger = new EconomyPassenger(name, surname, luggageCount, yearOfBirth);
                         } catch (Exception ex) {
                             throw new Exception(ex.getMessage());
                         }
                     }
-                    case 2 -> {
+                    case Family -> {
                         try {
                             newPassenger = new FamilyPassenger(name, surname, luggageCount, yearOfBirth);
                         } catch (Exception ex) {
@@ -91,15 +91,20 @@ public class PassengerModel {
         return passengerData.getAllPassengers().get(index);
     }
 
-    public void removeUser(int index) {
-        passengerData.removeUser(index);
+    public void removeUser(int id) {
+        passengerData.removeUser(id);
     }
 
-    public void updateUser(String name, String surname, String luggageCountText, String yearOfBirthText, PassengerType passengerType, int selectedIndex) throws Exception {
+    public void updateUser(
+            String name,
+            String surname,
+            String luggageCountText,
+            String yearOfBirthText,
+            PassengerType passengerType,
+            int passengerId
+    ) throws Exception {
         Passenger updatedPassenger = checkFields(name, surname, luggageCountText, yearOfBirthText, passengerType);
-
-        if (updatedPassenger != null) {
-            passengerData.updateUser(selectedIndex, updatedPassenger);
-        }
+        updatedPassenger.setId(passengerId);
+        passengerData.updateUser(updatedPassenger);
     }
 }
