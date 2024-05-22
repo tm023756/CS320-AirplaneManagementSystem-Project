@@ -5,12 +5,13 @@ import model.plane.data.Plane;
 import javax.swing.*;
 import javax.swing.event.ListDataListener;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlaneListModel implements ListModel {
 
-    private ArrayList<Plane> planes;
+    private List<Plane> planes;
 
-    public PlaneListModel(ArrayList<Plane> planes) {
+    public PlaneListModel(List<Plane> planes) {
         this.planes = planes;
     }
 

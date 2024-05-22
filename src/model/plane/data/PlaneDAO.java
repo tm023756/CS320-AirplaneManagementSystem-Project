@@ -4,6 +4,7 @@ import model.local.DatabaseConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlaneDAO {
     public static void insertPlane(Plane plane) {
@@ -16,7 +17,7 @@ public class PlaneDAO {
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -29,11 +30,11 @@ public class PlaneDAO {
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
-    public static ArrayList<Plane> getAllPlanes() {
+    public static List<Plane> getAllPlanes() {
         ArrayList<Plane> planes = new ArrayList<>();
         String sql = "SELECT * FROM Plane";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -51,7 +52,7 @@ public class PlaneDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         return planes;
     }

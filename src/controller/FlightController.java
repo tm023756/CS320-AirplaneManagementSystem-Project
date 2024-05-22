@@ -8,6 +8,7 @@ import model.passenger.data.PassengerType;
 import view.form.ErrorDialog;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FlightController {
 
@@ -61,7 +62,7 @@ public class FlightController {
         flightModel.buyTicket(seatId, null);
     }
 
-    public ArrayList<Seat> getSeatsByFlightId(int flightId) {
+    public List<Seat> getSeatsByFlightId(int flightId) {
         return flightModel.getSeatsByFlightId(flightId);
     }
 

@@ -3,6 +3,7 @@ package model.plane;
 import model.plane.data.Plane;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlaneModel {
 
@@ -11,12 +12,12 @@ public class PlaneModel {
     private Plane checkFields(
             String planeName,
             int capacity
-    ) throws Exception {
+    ) {
         if (planeName.isEmpty()) {
-            throw new Exception("Plane Name is Empty");
+            throw new IllegalArgumentException("Plane Name is Empty");
         } else {
             if (capacity == 0) {
-                throw new Exception("Capacity must be greater than zero!");
+                throw new IllegalArgumentException("Capacity must be greater than zero!");
             } else {
                 return new Plane(planeName, capacity);
             }
@@ -26,12 +27,12 @@ public class PlaneModel {
     public void addPlane(
             String planeName,
             int capacity
-    ) throws Exception {
+    ) {
         Plane newPlane = checkFields(planeName, capacity);
         planeData.addPlane(newPlane);
     }
 
-    public ArrayList<Plane> getAllPlanes() {
+    public List<Plane> getAllPlanes() {
         return planeData.getAllPlanes();
     }
 

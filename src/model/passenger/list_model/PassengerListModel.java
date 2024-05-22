@@ -5,12 +5,13 @@ import model.passenger.data.Passenger;
 import javax.swing.*;
 import javax.swing.event.ListDataListener;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PassengerListModel implements ListModel {
 
-    private ArrayList<Passenger> passengers;
+    private List<Passenger> passengers;
 
-    public PassengerListModel(ArrayList<Passenger> passengers) {
+    public PassengerListModel(List<Passenger> passengers) {
         this.passengers = passengers;
     }
 

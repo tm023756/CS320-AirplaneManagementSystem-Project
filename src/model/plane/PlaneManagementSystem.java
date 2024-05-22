@@ -4,10 +4,11 @@ import model.plane.data.Plane;
 import model.plane.data.PlaneDAO;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlaneManagementSystem {
 
-    public ArrayList<Plane> getAllPlanes() {
+    public List<Plane> getAllPlanes() {
         return PlaneDAO.getAllPlanes();
     }
 

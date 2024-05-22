@@ -44,9 +44,9 @@ public abstract class Passenger {
         return yearOfBirth;
     }
 
-    public void setYearOfBirth(int yearOfBirth) throws Exception {
+    public void setYearOfBirth(int yearOfBirth) {
         if (yearOfBirth > LocalDate.now().getYear()) {
-            throw new Exception("Invalid year of birth");
+            throw new IllegalArgumentException("Invalid year of birth");
         } else {
             this.yearOfBirth = yearOfBirth;
         }

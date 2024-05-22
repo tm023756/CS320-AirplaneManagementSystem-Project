@@ -5,6 +5,7 @@ import model.flight.data.Flight;
 import model.flight.data.Seat;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FlightModel {
 
@@ -15,14 +16,14 @@ public class FlightModel {
             String landing,
             String departureDate,
             String returnDate
-    ) throws Exception {
+    ) {
         if (departure.isEmpty() || landing.isEmpty() || departureDate.isEmpty()) {
-            throw new Exception("Fill all fields");
+            throw new IllegalArgumentException("Fill all fields");
         } else {
             if (!Flight.isDateValid(departureDate)) {
-                throw new Exception("Enter valid departure date (dd/mm/yyyy)");
+                throw new IllegalArgumentException("Enter valid departure date (dd/mm/yyyy)");
             } else if (!Flight.isDateValid(returnDate)) {
-                throw new Exception("Enter valid return date (dd/mm/yyyy)");
+                throw new IllegalArgumentException("Enter valid return date (dd/mm/yyyy)");
             } else {
                 return new Pair<>(
                         new Flight(departure, landing, departureDate),
@@ -37,14 +38,14 @@ public class FlightModel {
             String landing,
             String departureDate,
             String returnDate
-    ) throws Exception {
+    ) {
         Flight newFlight1 = checkFields(departure, landing, departureDate, returnDate).getFirst();
         Flight newFlight2 = checkFields(departure, landing, departureDate, returnDate).getSecond();
         flightData.addFlight(newFlight1);
         flightData.addFlight(newFlight2);
     }
 
-    public ArrayList<Flight> getAllFlights() {
+    public List<Flight> getAllFlights() {
         return flightData.getAllFlights();
     }
 
@@ -60,7 +61,7 @@ public class FlightModel {
         flightData.buyTicket(seatId, passengerId);
     }
 
-    public ArrayList<Seat> getSeatsByFlightId(int flightId) {
+    public List<Seat> getSeatsByFlightId(int flightId) {
         return flightData.getSeatsByFlightId(flightId);
     }
 

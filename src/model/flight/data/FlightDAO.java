@@ -10,7 +10,6 @@ import java.util.List;
 public class FlightDAO {
 
     public static void addFlight(Flight flight) {
-        System.out.println("FLIGHT" + flight.toString());
         String sql = "INSERT INTO Flight (departureLocation, landingLocation, departureDate) VALUES (?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -29,7 +28,7 @@ public class FlightDAO {
 
             addSeats(flight.getSeats(), flight.getId());
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -49,7 +48,7 @@ public class FlightDAO {
             pstmt.executeBatch();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -76,17 +75,17 @@ public class FlightDAO {
 
             } catch (SQLException e) {
                 conn.rollback(); // Rollback transaction on error
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
 
     // Method to get all flights from the database
-    public static ArrayList<Flight> getAllFlights() {
+    public static List<Flight> getAllFlights() {
         ArrayList<Flight> flights = new ArrayList<>();
         String sql = "SELECT * FROM Flight";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -107,14 +106,14 @@ public class FlightDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         return flights;
     }
 
-    public static ArrayList<Seat> getSeatsByFlightId(int flightId) {
+    public static List<Seat> getSeatsByFlightId(int flightId) {
         ArrayList<Seat> seats = new ArrayList<>();
         String sql = "SELECT s.id, s.passengerType_id, s.owner_id, s.price, p.name AS owner_name " +
                 "FROM Seat s LEFT JOIN Passenger p ON s.owner_id = p.id " +
@@ -141,7 +140,7 @@ public class FlightDAO {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         return seats;
     }

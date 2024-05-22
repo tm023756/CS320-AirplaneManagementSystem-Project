@@ -6,10 +6,13 @@ import model.flight.data.Seat;
 import model.flight.data.SeatDAO;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FlightManagementSystem {
 
-    public ArrayList<Flight> getAllFlights() {
+
+
+    public List<Flight> getAllFlights() {
         return FlightDAO.getAllFlights();
     }
 
@@ -25,7 +28,7 @@ public class FlightManagementSystem {
         SeatDAO.updateSeatOwner(seatId, passengerId);
     }
 
-    public ArrayList<Seat> getSeatsByFlightId(int flightId) {
+    public List<Seat> getSeatsByFlightId(int flightId) {
         return FlightDAO.getSeatsByFlightId(flightId);
     }
 

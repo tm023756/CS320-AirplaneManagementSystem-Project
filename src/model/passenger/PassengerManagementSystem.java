@@ -4,10 +4,11 @@ import model.passenger.data.Passenger;
 import model.passenger.data.PassengerDAO;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PassengerManagementSystem {
 
-    public ArrayList<Passenger> getAllPassengers() {
+    public List<Passenger> getAllPassengers() {
         return PassengerDAO.getAllPassengers();
     }
 

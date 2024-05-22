@@ -3,6 +3,7 @@ package model.passenger;
 import model.passenger.data.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PassengerModel {
 
@@ -14,9 +15,9 @@ public class PassengerModel {
             String luggageCountText,
             String yearOfBirthText,
             PassengerType passengerType
-    ) throws Exception {
+    ) {
         if (name.isEmpty() || surname.isEmpty() || luggageCountText.isEmpty() || yearOfBirthText.isEmpty()) {
-            throw new Exception("Fill all fields");
+            throw new IllegalArgumentException("Fill all fields");
         } else {
             int luggageCount = -1;
             int yearOfBirth = -1;
@@ -24,13 +25,13 @@ public class PassengerModel {
             try {
                 luggageCount = Integer.parseInt(luggageCountText);
             } catch (Exception exception) {
-                throw new Exception("Enter integer for Luggage Count");
+                throw new IllegalArgumentException("Enter integer for Luggage Count");
             }
 
             try {
                 yearOfBirth = Integer.parseInt(yearOfBirthText);
             } catch (Exception exception) {
-                throw new Exception("Enter integer for year of birth");
+                throw new IllegalArgumentException("Enter integer for year of birth");
             }
 
             Passenger newPassenger = null;
@@ -42,21 +43,21 @@ public class PassengerModel {
                         try {
                             newPassenger = new BusinessPassenger(name, surname, luggageCount, yearOfBirth);
                         } catch (Exception ex) {
-                            throw new Exception(ex.getMessage());
+                            throw new IllegalArgumentException(ex.getMessage());
                         }
                     }
                     case Economy -> {
                         try {
                             newPassenger = new EconomyPassenger(name, surname, luggageCount, yearOfBirth);
                         } catch (Exception ex) {
-                            throw new Exception(ex.getMessage());
+                            throw new IllegalArgumentException(ex.getMessage());
                         }
                     }
                     case Family -> {
                         try {
                             newPassenger = new FamilyPassenger(name, surname, luggageCount, yearOfBirth);
                         } catch (Exception ex) {
-                            throw new Exception(ex.getMessage());
+                            throw new IllegalArgumentException(ex.getMessage());
                         }
                     }
                 }
@@ -72,7 +73,7 @@ public class PassengerModel {
             String luggageCountText,
             String yearOfBirthText,
             PassengerType passengerType
-    ) throws Exception {
+    ) {
         //1. step check fields
         //2. create new passenger
         //3. adduser
@@ -83,7 +84,7 @@ public class PassengerModel {
         }
     }
 
-    public ArrayList<Passenger> getAllPassengers() {
+    public List<Passenger> getAllPassengers() {
         return passengerData.getAllPassengers();
     }
 
@@ -102,7 +103,7 @@ public class PassengerModel {
             String yearOfBirthText,
             PassengerType passengerType,
             int passengerId
-    ) throws Exception {
+    ) {
         Passenger updatedPassenger = checkFields(name, surname, luggageCountText, yearOfBirthText, passengerType);
         updatedPassenger.setId(passengerId);
         passengerData.updateUser(updatedPassenger);

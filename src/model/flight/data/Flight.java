@@ -3,6 +3,7 @@ package model.flight.data;
 import model.passenger.data.PassengerType;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Flight {
 
@@ -14,27 +15,27 @@ public class Flight {
 
     private String departureDate;
 
-    private ArrayList<Seat> seats;
+    private List<Seat> seats;
 
-    public Flight(String departureLocation, String landingLocation, String departureDate) throws Exception {
+    public Flight(String departureLocation, String landingLocation, String departureDate) {
         inflateSeats();
         setDepartureLocation(departureLocation);
         setLandingLocation(landingLocation);
         setDepartureDate(departureDate);
     }
 
-    public ArrayList<Seat> getSeats() {
+    public List<Seat> getSeats() {
         return seats;
     }
 
     private void inflateSeats() {
         seats = new ArrayList<>();
-
-        seats.add(new Seat(PassengerType.Business, "Empty", 1050.0));
-        seats.add(new Seat(PassengerType.Economy, "Empty", 325.0));
-        seats.add(new Seat(PassengerType.Economy, "Empty", 325.0));
-        seats.add(new Seat(PassengerType.Economy, "Empty", 325.0));
-        seats.add(new Seat(PassengerType.Family, "Empty", 150.0));
+        String emptyOwner = "Empty";
+        seats.add(new Seat(PassengerType.Business, emptyOwner, 1050.0));
+        seats.add(new Seat(PassengerType.Economy, emptyOwner, 325.0));
+        seats.add(new Seat(PassengerType.Economy, emptyOwner, 325.0));
+        seats.add(new Seat(PassengerType.Economy, emptyOwner, 325.0));
+        seats.add(new Seat(PassengerType.Family, emptyOwner, 150.0));
     }
 
     @Override
@@ -46,11 +47,10 @@ public class Flight {
         return departureLocation;
     }
 
-    public void setDepartureLocation(String departureLocation) throws Exception {
-
+    public void setDepartureLocation(String departureLocation) {
         for (Character s : departureLocation.toCharArray()) {
             if (Character.isDigit(s)) {
-                throw new Exception("Departure Location is invalid");
+                throw new IllegalArgumentException("Departure Location is invalid");
             }
         }
         this.departureLocation = departureLocation;
@@ -60,11 +60,11 @@ public class Flight {
         return landingLocation;
     }
 
-    public void setLandingLocation(String landingLocation) throws Exception {
+    public void setLandingLocation(String landingLocation) {
         //If landing location contains digit, it will throw Exception
         for (Character s : landingLocation.toCharArray()) {
             if (Character.isDigit(s)) {
-                throw new Exception("Landing Location is invalid");
+                throw new IllegalArgumentException("Landing Location is invalid");
             }
         }
         this.landingLocation = landingLocation;
@@ -82,11 +82,11 @@ public class Flight {
         return departureDate;
     }
 
-    public void setDepartureDate(String departureDate) throws Exception {
+    public void setDepartureDate(String departureDate) {
         if (isDateValid(departureDate)) {
             this.departureDate = departureDate;
         } else {
-            throw new Exception("Invalid Date. Enter date in format of dd/mm/yyyy");
+            throw new IllegalArgumentException("Invalid Date. Enter date in format of dd/mm/yyyy");
         }
     }
 

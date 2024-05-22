@@ -9,12 +9,10 @@ import java.sql.SQLException;
 public class SeatDAO {
 
     public static void updateSeatOwner(int seatId, Integer newOwnerId) {
-        System.out.println("NEW OWNER ID " + newOwnerId + " " + seatId);
         String sql = "UPDATE Seat SET owner_id = ? WHERE id = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            System.out.println("INSIDE CODE");
             if (newOwnerId != null) {
                 pstmt.setInt(1, newOwnerId);
             } else {
@@ -24,7 +22,7 @@ public class SeatDAO {
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 

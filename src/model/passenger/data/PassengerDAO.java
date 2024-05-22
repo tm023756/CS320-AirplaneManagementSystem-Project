@@ -4,10 +4,11 @@ import model.local.DatabaseConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PassengerDAO {
 
-    public static ArrayList<Passenger> getAllPassengers() {
+    public static List<Passenger> getAllPassengers() {
         ArrayList<Passenger> passengers = new ArrayList<>();
         String sql = "SELECT * FROM Passenger";
         try (Connection conn = DatabaseConnection.getConnection();
@@ -46,7 +47,7 @@ public class PassengerDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         return passengers;
     }
@@ -64,7 +65,7 @@ public class PassengerDAO {
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -82,7 +83,7 @@ public class PassengerDAO {
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -95,7 +96,7 @@ public class PassengerDAO {
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 

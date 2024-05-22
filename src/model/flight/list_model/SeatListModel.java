@@ -5,12 +5,13 @@ import model.flight.data.Seat;
 import javax.swing.*;
 import javax.swing.event.ListDataListener;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SeatListModel implements ListModel {
 
-    private ArrayList<Seat> seats;
+    private List<Seat> seats;
 
-    public SeatListModel(ArrayList<Seat> seats) {
+    public SeatListModel(List<Seat> seats) {
         this.seats = seats;
     }
 
